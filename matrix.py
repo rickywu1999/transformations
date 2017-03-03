@@ -1,35 +1,78 @@
 import math
 
+def make_translate( x, y, z ):
+    matrix = {{1,0,0,x},
+              {0,1,0,y},
+              {0,0,1,z},
+              {0,0,0,1}}
+    return matrix
+
+def make_scale( x, y, z ):
+    matrix = {{x,0,0,0},
+              {0,y,0,0},
+              {0,0,z,0},
+              {0,0,0,1}}
+    return matrix
+
+def make_rotX( theta ):    
+    rad = theta/180 * math.pi
+    matrix = {{1,0,0,0},
+              {0,math.cos(rad),math.sin(rad)*-1,0},
+              {0,math.sin(rad),math.cos(rad),0},
+              {0,0,0,1}}
+    return matrix
+
+def make_rotY( theta ):
+    rad = theta/180 * math.pi
+    matrix = {{math.cos(rad),0,math.sin(rad),0},
+              {0,1,0,0},
+              {math.sin(rad)*-1,0,math.cos(rad),0},
+              {0,0,0,1}}
+    return matrix
+
+def make_rotZ( theta ):
+    rad = theta/180 * math.pi
+    matrix = {{math.cos(rad),math.sin(rad)*-1,0,0},
+              {math.sin(rad),math.cos(rad),0,0},
+              {0,0,1,0},
+              {0,0,0,1}}
+    return matrix
 
 def print_matrix( matrix ):
-    for row in matrix:
-        s = ""
-        for a in row:
-            s += str(a) + " "
-        print(s)
+    s = ''
+    for r in range( len( matrix[0] ) ):
+        for c in range( len(matrix) ):
+            s+= str(matrix[c][r]) + ' '
+        s+= '\n'
+    print s
 
 def ident( matrix ):
-    for a in range(len(matrix)):
-        for b in range(len(matrix[0])):
-            if a == b:
-                matrix[a][b] = 1
+    for r in range( len( matrix[0] ) ):
+        for c in range( len(matrix) ):
+            if r == c:
+                matrix[c][r] = 1
             else:
-                matrix[a][b] = 0
+                matrix[c][r] = 0
 
 def scalar_mult( matrix, s ):
-    for row in matrix:
-        for a in row:
-            a *= s
-
+    for r in range( len( matrix[0] ) ):
+        for c in range( len(matrix) ):
+            matrix[c][r]*= s
+            
 #m1 * m2 -> m2
 def matrix_mult( m1, m2 ):
-    m = new_matrix (len(m1),len(m2[0]))
-    for a in range(len(m1)):
-        for d in range(len(m2[0])):
-            for c in range(len(m2)):
-                m[a][d] += m1[a][c] * m2[c][d]
-    return m
 
+    point = 0
+    for row in m2:
+        #get a copy of the next point
+        tmp = row[:]
+        
+        for r in range(4):
+            m2[point][r] = (m1[0][r] * tmp[0] +
+                            m1[1][r] * tmp[1] +
+                            m1[2][r] * tmp[2] +
+                            m1[3][r] * tmp[3])
+        point+= 1
 
 
 def new_matrix(rows = 4, cols = 4):

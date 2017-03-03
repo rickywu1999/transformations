@@ -1,8 +1,6 @@
-run: main.py
+run: main.py display.py draw.py matrix.py parser.py
 	python main.py
-	convert pic.ppm pic.png
 
 clean:
 	rm *.pyc
-	rm pic.ppm
-	rm pic.png
+	rm *~
