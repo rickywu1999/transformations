@@ -35,9 +35,10 @@ def parse_file( fname, points, transform, screen, color ):
     fd = open(fname,'r')
     data = (fd.read()).splitlines()
     i = 0
+    ident(transform)
     while i < len(data):
-        if data[i] == "quit":
-            break
+        if data[i] == "ident":
+            ident(transform)
         if data[i] == "line":
             i += 1
             a = data[i].split(" ")
@@ -52,15 +53,15 @@ def parse_file( fname, points, transform, screen, color ):
                 print("Not enough data: line " + str(i))
                 break
             m = make_scale(int(a[0]),int(a[1]),int(a[2]))
-            transform = matrix_mult(m,transform)
-        if data[i] == "translate":
+            matrix_mult(m,transform)
+        if data[i] == "move":
             i += 1
             a = data[i].split(" ")
             if len(a) != 3:
                 print("Not enough data: line " + str(i))
                 break
             m = make_translate(int(a[0]),int(a[1]),int(a[2]))
-            transform = matrix_mult(m,transform)
+            matrix_mult(m,transform)
         if data[i] == "rotate":
             i += 1
             a = data[i].split(" ")
@@ -73,9 +74,10 @@ def parse_file( fname, points, transform, screen, color ):
                 m = make_rotY(int(a[1]))
             if a[0] == "z":
                 m = make_rotZ(int(a[1]))
+            matrix_mult(m,transform)
         if data[i] == "apply":
-            points = matrix_mult(transform,points)
-            transform = ident(transform)
+            matrix_mult(transform,points)
+            ident(transform)
         if data[i] == "display":
             draw_lines(points,screen,color)
             display(screen)
