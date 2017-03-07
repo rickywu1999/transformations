@@ -1,6 +1,7 @@
 from display import *
 from matrix import *
 from draw import *
+import time
 
 """
 Goes through the file named filename and performs all of the actions listed in that file.
@@ -39,20 +40,22 @@ def parse_file( fname, points, transform, screen, color ):
     while i < len(data):
         if data[i] == "ident":
             ident(transform)
+        if data[i] == "clear":
+            points = []
         if data[i] == "line":
             i += 1
             a = data[i].split(" ")
             if len(a) != 6:
                 print("Not enough data: line " + str(i))
                 break
-            add_edge(points,int(a[0]),int(a[1]),int(a[2]),int(a[3]),int(a[4]),int(a[5]))
+            add_edge(points,float(a[0]),float(a[1]),float(a[2]),float(a[3]),float(a[4]),float(a[5]))
         if data[i] == "scale":
             i += 1
             a = data[i].split(" ")
             if len(a) != 3:
                 print("Not enough data: line " + str(i))
                 break
-            m = make_scale(int(a[0]),int(a[1]),int(a[2]))
+            m = make_scale(float(a[0]),float(a[1]),float(a[2]))
             matrix_mult(m,transform)
         if data[i] == "move":
             i += 1
@@ -60,7 +63,7 @@ def parse_file( fname, points, transform, screen, color ):
             if len(a) != 3:
                 print("Not enough data: line " + str(i))
                 break
-            m = make_translate(int(a[0]),int(a[1]),int(a[2]))
+            m = make_translate(float(a[0]),float(a[1]),float(a[2]))
             matrix_mult(m,transform)
         if data[i] == "rotate":
             i += 1
@@ -69,18 +72,29 @@ def parse_file( fname, points, transform, screen, color ):
                 print("Not enough data: line " + str(i))
                 break
             if a[0] == "x":
-                m = make_rotX(int(a[1]))
+                m = make_rotX(float(a[1]))
             if a[0] == "y":
-                m = make_rotY(int(a[1]))
+                m = make_rotY(float(a[1]))
             if a[0] == "z":
-                m = make_rotZ(int(a[1]))
+                m = make_rotZ(float(a[1]))
             matrix_mult(m,transform)
         if data[i] == "apply":
             matrix_mult(transform,points)
-            ident(transform)
+            print(str(color[0]) + " " + str(color[1]) + " " + str(color[2]))
+            color[0] += 20
+            color[1] -= 10
+            color[2] += 20
+            if color[0] > 225:
+                color[0] = 0
+            if color[1] < 0:
+                color[1] = 225
+            if color[2] > 225:
+                color[2] = 0
+            draw_lines(points,screen,color)
         if data[i] == "display":
             draw_lines(points,screen,color)
             display(screen)
+            time.sleep(.1)
         if data[i] == "save":
             draw_lines(points,screen,color)
             i += 1

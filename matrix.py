@@ -1,10 +1,10 @@
 import math
 
 def make_translate( x, y, z ):
-    matrix = [[1,0,0,x],
-              [0,1,0,y],
-              [0,0,1,z],
-              [0,0,0,1]]
+    matrix = [[1,0,0,0],
+              [0,1,0,0],
+              [0,0,1,0],
+              [x,y,z,1]]
     return matrix
 
 def make_scale( x, y, z ):
@@ -15,25 +15,25 @@ def make_scale( x, y, z ):
     return matrix
 
 def make_rotX( theta ):    
-    rad = theta/180 * math.pi
+    rad = theta/180.0 * math.pi
     matrix = [[1,0,0,0],
-              [0,math.cos(rad),math.sin(rad)*-1,0],
-              [0,math.sin(rad),math.cos(rad),0],
+              [0,math.cos(rad),math.sin(rad),0],
+              [0,math.sin(rad)*-1,math.cos(rad),0],
               [0,0,0,1]]
     return matrix
 
 def make_rotY( theta ):
-    rad = theta/180 * math.pi
-    matrix = [[math.cos(rad),0,math.sin(rad),0],
+    rad = theta/180.0 * math.pi
+    matrix = [[math.cos(rad),0,math.sin(rad)*-1,0],
               [0,1,0,0],
-              [math.sin(rad)*-1,0,math.cos(rad),0],
+              [math.sin(rad),0,math.cos(rad),0],
               [0,0,0,1]]
     return matrix
 
 def make_rotZ( theta ):
-    rad = theta/180 * math.pi
-    matrix = [[math.cos(rad),math.sin(rad)*-1,0,0],
-              [math.sin(rad),math.cos(rad),0,0],
+    rad = theta/180.0 * math.pi
+    matrix = [[math.cos(rad),math.sin(rad),0,0],
+              [math.sin(rad)*-1,math.cos(rad),0,0],
               [0,0,1,0],
               [0,0,0,1]]
     return matrix
