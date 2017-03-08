@@ -80,17 +80,6 @@ def parse_file( fname, points, transform, screen, color ):
             matrix_mult(m,transform)
         if data[i] == "apply":
             matrix_mult(transform,points)
-            print(str(color[0]) + " " + str(color[1]) + " " + str(color[2]))
-            color[0] += 20
-            color[1] -= 10
-            color[2] += 20
-            if color[0] > 225:
-                color[0] = 0
-            if color[1] < 0:
-                color[1] = 225
-            if color[2] > 225:
-                color[2] = 0
-            draw_lines(points,screen,color)
         if data[i] == "display":
             draw_lines(points,screen,color)
             display(screen)
@@ -98,11 +87,12 @@ def parse_file( fname, points, transform, screen, color ):
         if data[i] == "save":
             draw_lines(points,screen,color)
             i += 1
-            a = data[i].split(" ")
-            if len(a) != 1:
+            a = data[i].split(".")
+            if len(a) != 2:
                 print("Not enough data: line " + str(i))
                 break
-            save_ppm(screen,a[0])
+            save_ppm(screen,data[i])
+            save_extension(screen,a[0])
         i+=1
 
 

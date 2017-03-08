@@ -28,7 +28,7 @@ def plot( screen, color, x, y ):
 def clear_screen( screen ):
     for y in range( len(screen) ):
         for x in range( len(screen[y]) ):
-            screen[y][x] = DEFAULT_COLOR[:]
+           screen[y][x] = DEFAULT_COLOR[:]
 
 def save_ppm( screen, fname ):
     f = open( fname, 'w' )

@@ -5,3 +5,4 @@ clean:
 	rm *.pyc
 	rm *.png
 	rm *.ppm
+	rm pic
